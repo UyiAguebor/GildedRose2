@@ -9,7 +9,7 @@ class GildedRose {
 
 
 
-    public void checkIfSpecial(Item item){
+    public void appraiseItem(Item item){
         switch (item.name){
             case "Aged Brie":
                 getAgedBrieQuality(item);
@@ -17,10 +17,6 @@ class GildedRose {
 
             case "Backstage passes to a TAFKAL80ETC concert":
                 getPassQuality(item);
-                break;
-
-            case "Conjured Mana Cake":
-                getConjuredQuality(item);
                 break;
 
             case "Sulfuras, Hand of Ragnaros": break;
@@ -32,20 +28,29 @@ class GildedRose {
     }
 
     private static void getDefaultQuality(Item item) {
+        if(item.name.contains("Conjured")){
+            getConjuredQuality(item);
+            return;
+        }
+
         if(item.sellIn < 0){
-            item.quality -=2;}else {
-            item.quality-=1;}
+            item.quality -=2;
+        }
+        else {item.quality-=1;}
+
         if(item.quality < 0){
-            item.quality = 0;}
+            item.quality = 0;
+        }
+
         item.sellIn--;
     }
 
     private static void getConjuredQuality(Item item) {
-        if(item.sellIn < 0){
-            item.quality -=4;}else {
-            item.quality-=2;}
+        if(item.sellIn < 0){item.quality -=4;}
+        else {item.quality-=2;}
         if(item.quality < 0){
             item.quality = 0;}
+
         item.sellIn--;
     }
 
@@ -70,7 +75,7 @@ class GildedRose {
 
     public void updateQuality() {
         for(Item item: items){
-            checkIfSpecial(item);
+            appraiseItem(item);
         }
     }
 

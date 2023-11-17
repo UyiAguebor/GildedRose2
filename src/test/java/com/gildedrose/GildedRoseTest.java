@@ -6,12 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
 
+
     @Test
     void normalItem() {
         Item[] items = new Item[] { new Item("foo", 10, 0) };
         GildedRose app = new GildedRose(items);
         GildedRose app2 = new GildedRose(items);
-        int days = 50;
+        int days = 54;
 
         for(int i = 0;i < days;i++){
             app.updateQuality();
@@ -68,5 +69,20 @@ class GildedRoseTest {
 
         assertEquals(app2.items[0].quality, app.items[0].quality);
         assertEquals(app2.items[0].sellIn,app.items[0].sellIn);
+    }
+
+    @Test
+    void testConjuredItemUpdate() {
+        // Arrange
+        Item conjuredItem = new Item("Conjured Mana Cake", 5, 30);
+        GildedRose app = new GildedRose(new Item[]{conjuredItem});
+
+        int days = 10;
+        for(int i  = 0;i < days;i++){
+        app.updateQuality();
+        }
+
+        assertEquals(2, conjuredItem.quality);
+        assertEquals(-5, conjuredItem.sellIn);
     }
 }
